@@ -4,9 +4,31 @@ const apiClient = axios.create({
   baseURL: "https://be-nc-news-amrw.onrender.com/api",
 });
 
-export function getArticles() {
+export function getArticles(filter) {
   return apiClient
-    .get("/articles")
+    .get("/articles", { params: { topic: filter } })
+    .then(({ data }) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+export function getSingleArticle(article_id) {
+  return apiClient
+    .get(`/articles/${article_id}`)
+    .then(({ data }) => {
+      return data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+export function getCommentByArticleId(article_id) {
+  return apiClient
+    .get(`/articles/${article_id}/comments`)
     .then(({ data }) => {
       return data;
     })

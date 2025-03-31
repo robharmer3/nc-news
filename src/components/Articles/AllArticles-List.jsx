@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { getArticles } from "../../endpoint";
 import ArticlesArticle from "./AllArticles-Articles";
 
-export default function ArticlesList() {
+export default function ArticlesList({ filter }) {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
-    getArticles().then(({ articles }) => {
+    getArticles(filter).then(({ articles }) => {
       setArticles(articles);
     });
-  }, []);
+  }, [filter]);
 
   return (
     <>
