@@ -1,4 +1,5 @@
 import "./App.css";
+import Article from "./components/Article-Single/Article";
 import Articles from "./components/Articles/AllArticles";
 import Footer from "./components/Common/Footer";
 import Header from "./components/Common/Header";
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/articles" element={<Articles />} />
+          <Route path="/articles/:article_id" element={<Article />} />
         </Routes>
       </main>
       <footer>
