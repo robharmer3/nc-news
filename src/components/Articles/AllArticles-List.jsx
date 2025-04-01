@@ -1,28 +1,27 @@
-import { useEffect, useState } from "react";
 import { getArticles } from "../../endpoint";
-import ArticlesArticle from "./AllArticles-Articles";
+import Error from "../Common/Error";
+import Loading from "../Common/Loading";
+import useFetchApi from "../Hooks/useFetchApi";
+import ArticleCard from "./AllArticles-Articles";
 
 export default function ArticlesList({ filter }) {
-  const [articles, setArticles] = useState([]);
+  const { isLoading, isError, data } = useFetchApi(getArticles, filter);
+  const { articles } = data;
 
-  useEffect(() => {
-    getArticles(filter).then(({ articles }) => {
-      setArticles(articles);
-    });
-  }, [filter]);
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <Error />;
+  }
 
   return (
     <>
       <ul className="Article-List">
-        {articles.length === 0 ? (
-          <p>No Items Found</p>
-        ) : (
-          articles.map((article) => {
-            return (
-              <ArticlesArticle key={article.article_id} article={article} />
-            );
-          })
-        )}
+        {articles.map((article) => {
+          return <ArticleCard key={article.article_id} article={article} />;
+        })}
       </ul>
     </>
   );
