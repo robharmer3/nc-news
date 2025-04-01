@@ -1,21 +1,26 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { getCommentByArticleId, getSingleArticle } from "../../endpoint";
+import { getSingleArticle } from "../../endpoint";
+import useFetchApi from "../Hooks/useFetchApi";
+import Loading from "../Common/Loading";
+import Error from "../Common/Error";
+import Comments from "./Comments";
 
 export default function Article() {
   const { article_id } = useParams();
 
-  const [article, setArticle] = useState("");
-  const [comments, setComments] = useState([]);
+  const { isLoading, isError, data } = useFetchApi(
+    getSingleArticle,
+    article_id
+  );
+  const { article } = data;
 
-  useEffect(() => {
-    getSingleArticle(article_id).then(({ article }) => {
-      setArticle(article);
-    });
-    getCommentByArticleId(article_id).then(({ comments }) => {
-      setComments(comments);
-    });
-  }, []);
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <Error error={isError} />;
+  }
 
   return (
     <>
@@ -28,21 +33,7 @@ export default function Article() {
         <p>Created At: {article.created_at}</p>
         <p>Votes: {article.votes}</p>
       </section>
-      <section className="Article-Comments">
-        <h4 id="Comment-Title">Comments:</h4>
-        <ul>
-          {comments.map((comment) => {
-            return (
-              <li key={comment.comment_id}>
-                <p>Comment: {comment.body}</p>
-                <p>Author: {comment.author}</p>
-                <p>Created At: {comment.created_at}</p>
-                <p>Votes: {comment.votes}</p>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
+      <Comments article_id={article_id} />
     </>
   );
 }

@@ -1,20 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ArticlesList from "./AllArticles-List";
 import { getTopics } from "../../endpoint";
+import Loading from "../Common/Loading";
+import useFetchApi from "../Hooks/useFetchApi";
 
 export default function Articles() {
-  const [topics, setTopics] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState("");
 
-  useEffect(() => {
-    setIsLoading(true);
-    getTopics()
-      .then(({ topics }) => {
-        setTopics(topics);
-      })
-      .then(setIsLoading(false));
-  }, []);
+  const { isLoading, isError, data } = useFetchApi(getTopics);
+  const { topics } = data;
 
   function handleFilter(event) {
     event.preventDefault();
@@ -22,7 +16,11 @@ export default function Articles() {
   }
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <Error />;
   }
 
   return (

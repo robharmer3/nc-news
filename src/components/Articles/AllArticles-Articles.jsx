@@ -1,6 +1,6 @@
-import { Link, Links } from "react-router";
+import { Link } from "react-router";
 
-export default function ArticlesArticle({ article }) {
+export default function ArticleCard({ article }) {
   return (
     <li className="Article-List-Item">
       <h4>

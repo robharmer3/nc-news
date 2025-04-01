@@ -9,41 +9,23 @@ export function getArticles(filter) {
     .get("/articles", { params: { topic: filter } })
     .then(({ data }) => {
       return data;
-    })
-    .catch((error) => {
-      console.log(error);
     });
 }
 
 export function getSingleArticle(article_id) {
-  return apiClient
-    .get(`/articles/${article_id}`)
-    .then(({ data }) => {
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  return apiClient.get(`/articles/${article_id}`).then(({ data }) => {
+    return data;
+  });
 }
 
 export function getCommentByArticleId(article_id) {
-  return apiClient
-    .get(`/articles/${article_id}/comments`)
-    .then(({ data }) => {
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  return apiClient.get(`/articles/${article_id}/comments`).then(({ data }) => {
+    return data;
+  });
 }
 
 export function getTopics() {
-  return apiClient
-    .get("/topics")
-    .then(({ data }) => {
-      return data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  return apiClient.get("/topics").then(({ data }) => {
+    return data;
+  });
 }
