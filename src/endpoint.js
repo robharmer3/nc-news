@@ -1,4 +1,5 @@
 import axios from "axios";
+import { data } from "react-router";
 
 const apiClient = axios.create({
   baseURL: "https://be-nc-news-amrw.onrender.com/api",
@@ -28,4 +29,16 @@ export function getTopics() {
   return apiClient.get("/topics").then(({ data }) => {
     return data;
   });
+}
+
+export function patchArticle(article_id) {
+  const votesData = {
+    inc_votes: 1,
+  };
+
+  return apiClient
+    .patch(`/articles/${article_id}`, votesData)
+    .then(({ data }) => {
+      return data;
+    });
 }

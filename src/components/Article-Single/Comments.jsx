@@ -19,20 +19,17 @@ export default function Comments({ article_id }) {
   }
 
   return (
-    <section className="Article-Comments">
-      <h4 id="Comment-Title">Comments:</h4>
-      <ul>
-        {comments.map((comment) => {
-          return (
-            <li key={comment.comment_id}>
-              <p>Comment: {comment.body}</p>
-              <p>Author: {comment.author}</p>
-              <p>Created At: {comment.created_at}</p>
-              <p>Votes: {comment.votes}</p>
-            </li>
-          );
-        })}
-      </ul>
-    </section>
+    <ul>
+      {comments.map((comment) => {
+        return (
+          <li key={comment.comment_id}>
+            <p>Comment: {comment.body}</p>
+            <p>Author: {comment.author}</p>
+            <p>Created At: {comment.created_at}</p>
+            <p>Votes: {comment.votes}</p>
+          </li>
+        );
+      })}
+    </ul>
   );
 }

@@ -4,13 +4,20 @@ import useFetchApi from "../Hooks/useFetchApi";
 import Loading from "../Common/Loading";
 import Error from "../Common/Error";
 import Comments from "./Comments";
+import Votes from "./Votes";
+import NewComment from "./NewComment";
+import { useState } from "react";
 
 export default function Article() {
+  console.log("render");
   const { article_id } = useParams();
+
+  const [vote, setVote] = useState(0);
 
   const { isLoading, isError, data } = useFetchApi(
     getSingleArticle,
-    article_id
+    article_id,
+    vote
   );
   const { article } = data;
 
@@ -32,8 +39,13 @@ export default function Article() {
         <p>{article.body}</p>
         <p>Created At: {article.created_at}</p>
         <p>Votes: {article.votes}</p>
+        <Votes article={article} vote={vote} setVote={setVote} />
       </section>
-      <Comments article_id={article_id} />
+      <section className="Article-Comments">
+        <h4 id="Comment-Title">Comments:</h4>
+        <NewComment />
+        <Comments article_id={article_id} />
+      </section>
     </>
   );
 }
