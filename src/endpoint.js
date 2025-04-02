@@ -31,14 +31,25 @@ export function getTopics() {
   });
 }
 
-export function patchArticle(article_id) {
-  const votesData = {
-    inc_votes: 1,
-  };
-
+export function patchArticle(article_id, vote) {
   return apiClient
-    .patch(`/articles/${article_id}`, votesData)
+    .patch(`/articles/${article_id}`, {
+      inc_votes: vote,
+    })
     .then(({ data }) => {
+      return data;
+    });
+}
+export function postCommentByArticleId(article_id, comment) {
+  console.log(article_id, "<<endpotin id");
+  console.log(comment, "<<<endpoit comment");
+  return apiClient
+    .post(`/articles/${article_id}/comments`, {
+      username: "butter_bridge",
+      body: "hello",
+    })
+    .then(({ data }) => {
+      console.log(data);
       return data;
     });
 }

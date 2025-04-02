@@ -9,15 +9,13 @@ import NewComment from "./NewComment";
 import { useState } from "react";
 
 export default function Article() {
-  console.log("render");
   const { article_id } = useParams();
 
-  const [vote, setVote] = useState(0);
+  const [optimisticVotes, setOptimisticVotes] = useState(0);
 
   const { isLoading, isError, data } = useFetchApi(
     getSingleArticle,
-    article_id,
-    vote
+    article_id
   );
   const { article } = data;
 
@@ -38,12 +36,12 @@ export default function Article() {
         <img src={article.article_img_url} alt={article.title} />
         <p>{article.body}</p>
         <p>Created At: {article.created_at}</p>
-        <p>Votes: {article.votes}</p>
-        <Votes article={article} vote={vote} setVote={setVote} />
+        <p>Votes: {article.votes + optimisticVotes}</p>
+        <Votes article={article} setOptimisticVotes={setOptimisticVotes} />
       </section>
       <section className="Article-Comments">
         <h4 id="Comment-Title">Comments:</h4>
-        <NewComment />
+        <NewComment article_id={article_id} />
         <Comments article_id={article_id} />
       </section>
     </>
