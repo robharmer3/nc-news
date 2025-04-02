@@ -1,18 +1,18 @@
 import { useState } from "react";
-import useFetchApi from "../Hooks/useFetchApi";
 import { postCommentByArticleId } from "../../endpoint";
 
-export default function NewComment({ article_id }) {
-  // const [input, setInput] = useState("");
-
-  const [newComment, setNewComment] = useState({
-    username: "butter_bridge",
-    body: "",
-  });
-
+export default function NewComment({
+  article_id,
+  newComment,
+  setNewComment,
+  setIsPosted,
+  setOptimisticComments,
+}) {
   function handleInput(event) {
-    // setInput(event.target.value);
     setNewComment((previousState) => {
+      return { ...previousState, body: event.target.value };
+    });
+    setOptimisticComments((previousState) => {
       return { ...previousState, body: event.target.value };
     });
   }
@@ -20,10 +20,8 @@ export default function NewComment({ article_id }) {
   function handleNewComment(event) {
     event.preventDefault();
     postCommentByArticleId(article_id, newComment);
-    // setInput("");
+    setIsPosted(true);
   }
-
-  console.log(newComment, "<<<newcomponet file");
 
   return (
     <form className="new-comment" onSubmit={handleNewComment}>

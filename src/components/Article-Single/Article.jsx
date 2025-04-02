@@ -1,12 +1,11 @@
 import { useParams } from "react-router";
 import { getSingleArticle } from "../../endpoint";
+import { useState } from "react";
 import useFetchApi from "../Hooks/useFetchApi";
 import Loading from "../Common/Loading";
 import Error from "../Common/Error";
 import Comments from "./Comments";
 import Votes from "./Votes";
-import NewComment from "./NewComment";
-import { useState } from "react";
 
 export default function Article() {
   const { article_id } = useParams();
@@ -41,7 +40,6 @@ export default function Article() {
       </section>
       <section className="Article-Comments">
         <h4 id="Comment-Title">Comments:</h4>
-        <NewComment article_id={article_id} />
         <Comments article_id={article_id} />
       </section>
     </>

@@ -44,12 +44,12 @@ export function postCommentByArticleId(article_id, comment) {
   console.log(article_id, "<<endpotin id");
   console.log(comment, "<<<endpoit comment");
   return apiClient
-    .post(`/articles/${article_id}/comments`, {
-      username: "butter_bridge",
-      body: "hello",
-    })
+    .post(`/articles/${article_id}/comments`, comment)
     .then(({ data }) => {
-      console.log(data);
       return data;
     });
+}
+
+export function deleteComment(comment_id) {
+  return apiClient.delete(`/comments/${comment_id}`);
 }
