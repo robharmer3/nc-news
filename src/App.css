@@ -48,10 +48,6 @@ h3 {
   width: 100%;
 }
 
-/* .Articles-Filter {
-  border: solid white 2px;
-  width: 100%;
-}0*/
 .All-Artilces {
   width: 100%;
 }
@@ -74,7 +70,6 @@ h3 {
 .Article-List-Item p {
   padding-left: 25px;
   padding-right: 25px;
-  /* text-align: center; */
 }
 
 .Single-Article {
@@ -86,6 +81,9 @@ h3 {
 }
 .Article-Title {
   border: 0;
+}
+.Single-Article button {
+  margin: 20px;
 }
 .Article-Comments {
   border: solid lightblue 3px;
@@ -106,4 +104,9 @@ h3 {
   margin-top: 10px;
   margin-bottom: 10px;
   width: 100%;
+}
+
+.new-comment {
+  border: solid red 2px;
+  margin: 10px;
 }

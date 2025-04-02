@@ -4,9 +4,14 @@ import useFetchApi from "../Hooks/useFetchApi";
 import Loading from "../Common/Loading";
 import Error from "../Common/Error";
 import Comments from "./Comments";
+import Votes from "./Votes";
+import NewComment from "./NewComment";
+import { useState } from "react";
 
 export default function Article() {
   const { article_id } = useParams();
+
+  const [optimisticVotes, setOptimisticVotes] = useState(0);
 
   const { isLoading, isError, data } = useFetchApi(
     getSingleArticle,
@@ -31,9 +36,14 @@ export default function Article() {
         <img src={article.article_img_url} alt={article.title} />
         <p>{article.body}</p>
         <p>Created At: {article.created_at}</p>
-        <p>Votes: {article.votes}</p>
+        <p>Votes: {article.votes + optimisticVotes}</p>
+        <Votes article={article} setOptimisticVotes={setOptimisticVotes} />
       </section>
-      <Comments article_id={article_id} />
+      <section className="Article-Comments">
+        <h4 id="Comment-Title">Comments:</h4>
+        <NewComment article_id={article_id} />
+        <Comments article_id={article_id} />
+      </section>
     </>
   );
 }
