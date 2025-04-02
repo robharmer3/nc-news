@@ -11,23 +11,22 @@ import DeleteComment from "./Delete";
 export default function Comments({ article_id }) {
   const { user } = useContext(UserContext);
   const [isDeleted, setIsDeleted] = useState(false);
+  const [isPosted, setIsPosted] = useState(false);
   const [optimisticComment, setOptimisticComment] = useState({
     body: "",
     author: user.username,
     created_at: "Now",
     votes: 0,
   });
-
   const [newComment, setNewComment] = useState({
-    username: "grumpy19",
+    username: user.username,
     body: "",
   });
-
-  const [isPosted, setIsPosted] = useState(false);
 
   const { isLoading, isError, data } = useFetchApi(
     getCommentByArticleId,
     article_id,
+    isPosted,
     isDeleted
   );
   const { comments } = data;
@@ -42,21 +41,22 @@ export default function Comments({ article_id }) {
 
   return (
     <>
-      <NewComment
-        className="new-comment"
-        article_id={article_id}
-        newComment={newComment}
-        setNewComment={setNewComment}
-        setIsPosted={setIsPosted}
-        setOptimisticComments={setOptimisticComment}
-      />
-      {isPosted ? (
-        <Posted
-          optimisticComment={optimisticComment}
+      <ul>
+        <NewComment
+          className="new-comment"
+          article_id={article_id}
+          newComment={newComment}
+          setNewComment={setNewComment}
+          setIsPosted={setIsPosted}
           setOptimisticComments={setOptimisticComment}
         />
-      ) : null}
-      <ul>
+        {isPosted > 0 ? (
+          <Posted
+            className="posted"
+            optimisticComment={optimisticComment}
+            setOptimisticComments={setOptimisticComment}
+          />
+        ) : null}
         {comments.map((comment) => {
           return (
             <li key={comment.comment_id}>

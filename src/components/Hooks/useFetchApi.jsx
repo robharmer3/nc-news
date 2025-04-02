@@ -5,6 +5,8 @@ export default function useFetchApi(apiFunction, ...args) {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState();
 
+  console.log(args);
+
   useEffect(() => {
     apiFunction(...args)
       .then((data) => {

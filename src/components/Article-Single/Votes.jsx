@@ -1,4 +1,5 @@
 import { patchArticle } from "../../endpoint";
+import useFetchApi from "../Hooks/useFetchApi";
 
 export default function Votes({ article, setOptimisticVotes }) {
   function handleVote(vote) {
