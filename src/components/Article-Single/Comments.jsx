@@ -1,35 +1,32 @@
 import { getCommentByArticleId } from "../../endpoint";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/User";
 import Error from "../Common/Error";
 import Loading from "../Common/Loading";
 import NewComment from "./NewComment";
-import Posted from "./Posted";
-import useFetchApi from "../Hooks/useFetchApi";
 import DeleteComment from "./Delete";
+import VotesComments from "./Votes-Comments";
 
 export default function Comments({ article_id }) {
   const { user } = useContext(UserContext);
   const [isDeleted, setIsDeleted] = useState(false);
   const [isPosted, setIsPosted] = useState(false);
-  const [optimisticComment, setOptimisticComment] = useState({
-    body: "",
-    author: user.username,
-    created_at: "Now",
-    votes: 0,
-  });
-  const [newComment, setNewComment] = useState({
-    username: user.username,
-    body: "",
-  });
+  const [optimisticVotes, setOptimisticVotes] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState();
 
-  const { isLoading, isError, data } = useFetchApi(
-    getCommentByArticleId,
-    article_id,
-    isPosted,
-    isDeleted
-  );
-  const { comments } = data;
+  useEffect(() => {
+    getCommentByArticleId(article_id)
+      .then(({ comments }) => {
+        setComments(comments);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsError(error);
+        setIsLoading(false);
+      });
+  }, [isPosted, isDeleted]);
 
   if (isLoading) {
     return <Loading />;
@@ -45,32 +42,33 @@ export default function Comments({ article_id }) {
         <NewComment
           className="new-comment"
           article_id={article_id}
-          newComment={newComment}
-          setNewComment={setNewComment}
           setIsPosted={setIsPosted}
-          setOptimisticComments={setOptimisticComment}
+          comments={comments}
+          setComments={setComments}
         />
-        {isPosted > 0 ? (
-          <Posted
-            className="posted"
-            optimisticComment={optimisticComment}
-            setOptimisticComments={setOptimisticComment}
-          />
+        {isPosted ? (
+          <h3 className="Article-New-Comments">Comment Posted</h3>
+        ) : null}
+        {isDeleted ? (
+          <h3 className="Article-New-Comments">Comment Deleted</h3>
         ) : null}
         {comments.map((comment) => {
           return (
             <li key={comment.comment_id}>
-              <p>Comment: {comment.body}</p>
-              <p>Author: {comment.author}</p>
-              <p>Created At: {comment.created_at}</p>
-              <p>Votes: {comment.votes}</p>
+              <p>{comment.body}</p>
+              <p>By: {comment.author}</p>
+              <p>Published: {comment.created_at}</p>
+              <h4>{comment.votes + optimisticVotes} people Like this</h4>
+              <VotesComments
+                commentId={comment.comment_id}
+                setOptimisticVotes={setOptimisticVotes}
+              />
               {comment.author === user.username ? (
                 <DeleteComment
                   commentId={comment.comment_id}
                   setIsDeleted={setIsDeleted}
                 />
               ) : null}
-              {isDeleted ? <p>Comment Deleted</p> : null}
             </li>
           );
         })}

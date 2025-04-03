@@ -1,18 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ArticlesList from "./AllArticles-List";
 import { getTopics } from "../../endpoint";
 import Loading from "../Common/Loading";
 import useFetchApi from "../Hooks/useFetchApi";
+import FilterByTopics from "./Filter-Topic";
+import SortByCreated from "./Sort-Created";
+import { useNavigate } from "react-router";
 
 export default function Articles() {
+  const [topics, setTopics] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [articles, setArticles] = useState([]);
   const [filter, setFilter] = useState("");
+  const [age, setAge] = useState("");
+  const [page, setPage] = useState(1);
 
-  const { isLoading, isError, data } = useFetchApi(getTopics);
-  const { topics } = data;
+  useEffect(() => {
+    getTopics()
+      .then(({ topics }) => {
+        setTopics(topics);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsError(error);
+        setIsLoading(false);
+      });
+  }, []);
 
-  function handleFilter(event) {
-    event.preventDefault();
-    setFilter(event.target.value);
+  const navigate = useNavigate();
+
+  function handlePageChange() {
+    setPage((currentPage) => currentPage + 1);
+    navigate(`/articles?page=${page}`);
   }
 
   if (isLoading) {
@@ -25,29 +45,31 @@ export default function Articles() {
 
   return (
     <section className="All-Articles">
-      <h3>Articles</h3>
-      <form className="Articles-Filter">
-        <label htmlFor="default">Filter by Topic: </label>
-        <select onChange={handleFilter} name="article-filter" id="filter">
-          <option key="all" value="">
-            --Please Select--
-          </option>
-          {topics.map((topic) => {
-            return (
-              <option
-                key={topic.slug}
-                type="radio"
-                name="article-filter"
-                id={topic.slug}
-                value={topic.slug}
-              >
-                {topic.slug}
-              </option>
-            );
-          })}
-        </select>
-      </form>
-      <ArticlesList filter={filter} />
+      <h2>All Articles</h2>
+      <FilterByTopics topics={topics} setFilter={setFilter} setPage={setPage} />
+      <SortByCreated setAge={setAge} />
+      <ArticlesList
+        filter={filter}
+        age={age}
+        page={page}
+        setPage={setPage}
+        articles={articles}
+        setArticles={setArticles}
+      />
+      <button
+        onClick={() => setPage((currentPage) => currentPage - 1)}
+        disabled={page === 1}
+      >
+        Previous Page
+      </button>
+      <button
+        onClick={() => {
+          setPage((currentPage) => currentPage + 1);
+        }}
+        disabled={articles.length < 10}
+      >
+        Next Page
+      </button>
     </section>
   );
 }

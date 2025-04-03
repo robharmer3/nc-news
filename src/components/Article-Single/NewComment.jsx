@@ -1,18 +1,21 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { postCommentByArticleId } from "../../endpoint";
+import { UserContext } from "../context/User";
 
 export default function NewComment({
   article_id,
-  newComment,
-  setNewComment,
   setIsPosted,
-  setOptimisticComments,
+  comments,
+  setComments,
 }) {
+  const { user } = useContext(UserContext);
+  const [newComment, setNewComment] = useState({
+    username: user.username,
+    body: "",
+  });
+
   function handleInput(event) {
     setNewComment((previousState) => {
-      return { ...previousState, body: event.target.value };
-    });
-    setOptimisticComments((previousState) => {
       return { ...previousState, body: event.target.value };
     });
   }
@@ -20,6 +23,9 @@ export default function NewComment({
   function handleNewComment(event) {
     event.preventDefault();
     postCommentByArticleId(article_id, newComment);
+    setComments((currComment) => {
+      return [...currComment, newComment];
+    });
     setIsPosted(true);
   }
 
@@ -29,7 +35,6 @@ export default function NewComment({
       <input
         onChange={handleInput}
         type="text"
-        name="comment"
         id="comment"
         value={newComment.body}
       />
