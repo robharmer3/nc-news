@@ -1,33 +1,23 @@
-import { useEffect, useState } from "react";
 import { getArticles } from "../../endpoint";
 import Error from "../Common/Error";
 import Loading from "../Common/Loading";
 import ArticleCard from "./AllArticles-Articles";
+import useFetchApi from "../Hooks/useFetchApi";
 
-export default function ArticlesList({
-  filter,
-  age,
-  page,
-  articles,
-  setArticles,
-}) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState();
+export default function ArticlesList({ filter, page }) {
+  const { isLoading, isError, data } = useFetchApi(getArticles, filter, page);
 
-  useEffect(() => {
-    getArticles(filter, page, age)
-      .then(({ articles }) => {
-        setArticles(articles);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsError(error);
-        setIsLoading(false);
-      });
-  }, [filter, page, age]);
+  const { articles } = data;
 
-  // const { isLoading, isError, data } = useFetchApi(getArticles, filter, page);
-  // const { articles } = data;
+  //Pass data from useFetchApi to articles (state) form AllArticles page.
+  // articles, setArticles
+  // console.log(data.articles);
+  // setArticles((currArticles) => {
+  //   console.log(currArticles, "<<<curr");
+  //   return [...currArticles, data.articles];
+  // });
+
+  // console.log(articles, "<<<<articles post");
 
   if (isLoading) {
     return <Loading />;
