@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -11,7 +17,7 @@ header {
   top: 0;
   width: 100%;
   text-align: center;
-  border: solid white 2px;
+  border: solid blue 2px;
   padding: 10px;
 }
 
@@ -21,7 +27,7 @@ footer {
   bottom: 0;
   width: 100%;
   text-align: center;
-  border: solid white 2px;
+  border: solid blue 2px;
   margin-top: 50px;
   padding: 10px;
 }
@@ -30,20 +36,14 @@ footer {
   padding-left: 0;
   list-style-type: none;
   padding-inline-start: 0;
+  border: solid blue 2px;
 }
 #nav-bar li {
   display: inline;
   padding: 10px;
 }
 
-h3 {
-  border: solid white 2px;
-  padding: 10px;
-  width: 100%;
-}
-
 .Welcome {
-  border: solid white 2px;
   padding: 10px;
   width: 100%;
 }
@@ -51,18 +51,24 @@ h3 {
 .All-Artilces {
   width: 100%;
 }
-
-.Article-List {
-  padding-inline-start: 5px;
-  padding-inline-end: 5px;
+.Articles-Filter {
+  border: solid rgb(80, 255, 74) 2px;
+  padding: 10px;
   width: 100%;
+  margin-top: 10px;
+}
+.Article-List {
+  width: 100%;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 .Article-List-Item {
   list-style-type: none;
-  border: solid white 2px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  border: solid rgb(80, 255, 74) 2px;
   width: 100%;
+  padding: 10px;
 }
 .Article-List-Item img {
   height: 10rem;
@@ -79,20 +85,31 @@ h3 {
   margin-bottom: 10px;
   width: 100%;
 }
-.Article-Title {
-  border: 0;
+.Single-Article p {
+  text-align: justify;
+  padding: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
-.Single-Article button {
-  margin: 20px;
+.Single-Article h3 {
+  text-align: justify;
+  padding: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
+.Single-Article img {
+  padding: 10px;
+  padding-top: 20px;
+}
+
 .Article-Comments {
   border: solid lightblue 3px;
 }
 #Comment-Title {
   text-align: left;
-  padding-left: 10px;
-  padding-top: 10px;
+  padding: 10px;
 }
+
 .Article-Comments ul {
   padding-inline-start: 0;
   padding-left: 20px;
@@ -105,8 +122,73 @@ h3 {
   margin-bottom: 10px;
   width: 100%;
 }
+.Article-Comments button {
+  margin: 10px;
+}
+.Article-Comments p {
+  margin: 10px;
+  text-align: justify;
+}
+.Article-Comments h4 {
+  margin: 10px;
+}
 
 .new-comment {
+  display: grid;
   border: solid red 2px;
-  margin: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding: 10px;
+}
+.new-comment label {
+  font-size: large;
+}
+.new-comment input {
+  height: 50px;
+}
+.posted {
+  margin-top: 10px;
+}
+.Article-New-Comment {
+  border: solid blue 2px;
+  padding-inline-start: 0;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.Article-New-Comments li {
+  list-style-type: none;
+  border: solid lime 2px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+.User {
+  display: grid;
+  grid-template-columns: 200px auto;
+  grid-template-rows: 50px minmax(160px, auto) auto;
+  grid-template-areas:
+    "header header"
+    "leftbar main"
+    "footer footer";
+  column-gap: 20px;
+  row-gap: 20px;
+}
+.User h3 {
+  text-align: center;
+  border: solid purple 2px;
+  grid-area: header;
+  margin: auto;
+}
+.User li {
+  list-style-type: none;
+  border: solid purple 2px;
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 10px;
+  grid-area: main;
+}
+.User img {
+  width: 200px;
+  grid-area: leftbar;
 }

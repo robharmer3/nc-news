@@ -1,29 +1,42 @@
-import { useState } from "react";
-import useFetchApi from "../Hooks/useFetchApi";
+import { useContext, useState } from "react";
 import { postCommentByArticleId } from "../../endpoint";
+import { UserContext } from "../context/User";
 
-export default function NewComment({ article_id }) {
-  // const [input, setInput] = useState("");
-
-  const [newComment, setNewComment] = useState({
-    username: "butter_bridge",
-    body: "",
-  });
+export default function NewComment({ article_id, setIsPosted, setComments }) {
+  const { user } = useContext(UserContext);
+  const [newComment, setNewComment] = useState("");
+  const [newCommentId, setNewCommentId] = useState("");
 
   function handleInput(event) {
-    // setInput(event.target.value);
-    setNewComment((previousState) => {
-      return { ...previousState, body: event.target.value };
-    });
+    setNewComment(event.target.value);
   }
 
   function handleNewComment(event) {
     event.preventDefault();
-    postCommentByArticleId(article_id, newComment);
-    // setInput("");
+    postCommentByArticleId(article_id, {
+      username: user.username,
+      body: newComment,
+    })
+      .then(({ comment }) => {
+        console.log(comment.comment_id);
+        setNewCommentId(comment.comment_id);
+      })
+      .then(() => {
+        setIsPosted(true);
+        setComments((currComments) => {
+          return [
+            ...currComments,
+            {
+              author: user.username,
+              body: newComment,
+              votes: 0,
+              article_id: article_id,
+              comment_id: newCommentId,
+            },
+          ];
+        });
+      });
   }
-
-  console.log(newComment, "<<<newcomponet file");
 
   return (
     <form className="new-comment" onSubmit={handleNewComment}>
@@ -31,9 +44,8 @@ export default function NewComment({ article_id }) {
       <input
         onChange={handleInput}
         type="text"
-        name="comment"
         id="comment"
-        value={newComment.body}
+        value={newComment}
       />
       <button type="submit">Submit Comment</button>
     </form>

@@ -1,14 +1,19 @@
 import { useState } from "react";
-import { patchArticle } from "../../endpoint";
+import { patchComments } from "../../endpoint";
 
-export default function Votes({ article, setOptimisticVotes, voteName, vote }) {
+export default function VotesComments({
+  commentId,
+  setOptimisticVotes,
+  voteName,
+  vote,
+}) {
   const [isClicked, setIsClicked] = useState(false);
   function handleVote(vote) {
     setOptimisticVotes((currOptimsiticVotes) => {
       return currOptimsiticVotes + vote;
     });
     setIsClicked(true);
-    patchArticle(article.article_id, vote).catch(() => {
+    patchComments(commentId, vote).catch(() => {
       setOptimisticVotes((currOptimsiticVotes) => {
         return currOptimsiticVotes - vote;
       });
