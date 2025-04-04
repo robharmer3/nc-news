@@ -5,13 +5,13 @@ const apiClient = axios.create({
 });
 
 export function getArticles(filter, page, age) {
-  return apiClient
-    .get(`/articles`, {
-      params: { topic: filter, page: page },
-    })
-    .then(({ data }) => {
-      return data;
-    });
+  const params = { topic: filter, page: page };
+  if (age) {
+    params.order = age;
+  }
+  return apiClient.get(`/articles`, { params: params }).then(({ data }) => {
+    return data;
+  });
 }
 
 export function getSingleArticle(article_id) {

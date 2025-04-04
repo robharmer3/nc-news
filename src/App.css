@@ -101,6 +101,7 @@ footer {
   padding: 10px;
   padding-top: 20px;
 }
+
 .Article-Comments {
   border: solid lightblue 3px;
 }
@@ -161,4 +162,33 @@ footer {
   margin-top: 10px;
   margin-bottom: 10px;
   width: 100%;
+}
+.User {
+  display: grid;
+  grid-template-columns: 200px auto;
+  grid-template-rows: 50px minmax(160px, auto) auto;
+  grid-template-areas:
+    "header header"
+    "leftbar main"
+    "footer footer";
+  column-gap: 20px;
+  row-gap: 20px;
+}
+.User h3 {
+  text-align: center;
+  border: solid purple 2px;
+  grid-area: header;
+  margin: auto;
+}
+.User li {
+  list-style-type: none;
+  border: solid purple 2px;
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 10px;
+  grid-area: main;
+}
+.User img {
+  width: 200px;
+  grid-area: leftbar;
 }

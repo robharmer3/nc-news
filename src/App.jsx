@@ -8,6 +8,7 @@ import { UserProvider } from "./components/context/User";
 import Home from "./components/Home-Page/Home";
 
 import { Routes, Route } from "react-router-dom";
+import User from "./components/User/User";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:article_id" element={<Article />} />
+            <Route path="/users" element={<User />} />
           </Routes>
         </main>
         <footer>

@@ -7,7 +7,7 @@ export default function SortByCreated({ setAge }) {
     <form className="Articles-Filter">
       <label htmlFor="default">Sory by Age: </label>
       <select onChange={handleSortByAge} name="article-filter" id="filter">
-        <option key="new" value="dec">
+        <option key="new" value="desc">
           Newest
         </option>
         <option key="old" value="asc">

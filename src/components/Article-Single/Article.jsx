@@ -9,6 +9,7 @@ import ArticleCard from "./ArticleCard";
 
 export default function Article() {
   console.log("render");
+
   const { article_id } = useParams();
   const [optimisticVotes, setOptimisticVotes] = useState(0);
 

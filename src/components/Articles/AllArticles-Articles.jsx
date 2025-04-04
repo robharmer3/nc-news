@@ -9,7 +9,7 @@ export default function ArticleCard({ article }) {
       <h5>Topic: {article.topic}</h5>
       <img src={article.article_img_url} alt={article.title} />
       <h5>Author: {article.author}</h5>
-      <h5>Created: {article.created_at}</h5>
+      <h5>Published: {new Date(article.created_at).toLocaleString()}</h5>
     </li>
   );
 }

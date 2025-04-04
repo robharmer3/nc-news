@@ -2,31 +2,40 @@ import { useContext, useState } from "react";
 import { postCommentByArticleId } from "../../endpoint";
 import { UserContext } from "../context/User";
 
-export default function NewComment({
-  article_id,
-  setIsPosted,
-  comments,
-  setComments,
-}) {
+export default function NewComment({ article_id, setIsPosted, setComments }) {
   const { user } = useContext(UserContext);
-  const [newComment, setNewComment] = useState({
-    username: user.username,
-    body: "",
-  });
+  const [newComment, setNewComment] = useState("");
+  const [newCommentId, setNewCommentId] = useState("");
 
   function handleInput(event) {
-    setNewComment((previousState) => {
-      return { ...previousState, body: event.target.value };
-    });
+    setNewComment(event.target.value);
   }
 
   function handleNewComment(event) {
     event.preventDefault();
-    postCommentByArticleId(article_id, newComment);
-    setComments((currComment) => {
-      return [...currComment, newComment];
-    });
-    setIsPosted(true);
+    postCommentByArticleId(article_id, {
+      username: user.username,
+      body: newComment,
+    })
+      .then(({ comment }) => {
+        console.log(comment.comment_id);
+        setNewCommentId(comment.comment_id);
+      })
+      .then(() => {
+        setIsPosted(true);
+        setComments((currComments) => {
+          return [
+            ...currComments,
+            {
+              author: user.username,
+              body: newComment,
+              votes: 0,
+              article_id: article_id,
+              comment_id: newCommentId,
+            },
+          ];
+        });
+      });
   }
 
   return (
@@ -36,7 +45,7 @@ export default function NewComment({
         onChange={handleInput}
         type="text"
         id="comment"
-        value={newComment.body}
+        value={newComment}
       />
       <button type="submit">Submit Comment</button>
     </form>
