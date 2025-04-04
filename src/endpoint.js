@@ -6,6 +6,7 @@ const apiClient = axios.create({
 
 export function getArticles(filter, page, age) {
   const params = { topic: filter, page: page };
+  console.log(params);
   if (age) {
     params.order = age;
   }
