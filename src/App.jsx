@@ -9,6 +9,7 @@ import Home from "./components/Home-Page/Home";
 
 import { Routes, Route } from "react-router-dom";
 import User from "./components/User/User";
+import Error from "./components/Common/Error";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/:article_id" element={<Article />} />
             <Route path="/users" element={<User />} />
+            <Route path="*" element={<Error />} />
           </Routes>
         </main>
         <footer>

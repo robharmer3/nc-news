@@ -16,7 +16,7 @@ export default function Articles() {
   const { isLoading, isError, data } = useFetchApi(getTopics);
   const { topics } = data;
 
-  console.log(filter);
+  console.log(articles);
 
   if (isLoading) {
     return <Loading />;

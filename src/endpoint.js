@@ -6,7 +6,6 @@ const apiClient = axios.create({
 
 export function getArticles(filter, page, age) {
   const params = { topic: filter, page: page };
-  console.log(params);
   if (age) {
     params.order = age;
   }
@@ -62,4 +61,10 @@ export function patchComments(comment_id, vote) {
     .then(({ data }) => {
       return data;
     });
+}
+
+export function getUsers() {
+  return apiClient.get(`/users`).then(({ data }) => {
+    return data;
+  });
 }

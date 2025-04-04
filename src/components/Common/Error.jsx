@@ -6,6 +6,7 @@ export default function Error({ error }) {
   return (
     <>
       <Lottie animationData={ErrorAnimation} loop={true} />
+      <p>{error.message}</p>
     </>
   );
 }

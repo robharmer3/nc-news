@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 
-export default function FilterByTopics({ topics, filter, setFilter, setPage }) {
+export default function FilterByTopics({ topics, setFilter, setPage }) {
   const navigate = useNavigate();
   function handleFilter(event) {
     event.preventDefault();
