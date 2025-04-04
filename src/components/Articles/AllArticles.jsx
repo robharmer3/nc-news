@@ -16,6 +16,8 @@ export default function Articles() {
   const { isLoading, isError, data } = useFetchApi(getTopics);
   const { topics } = data;
 
+  console.log(filter);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -27,8 +29,13 @@ export default function Articles() {
   return (
     <section className="All-Articles">
       <h2>All Articles</h2>
-      <FilterByTopics topics={topics} setFilter={setFilter} />
-      <SortByCreated setAge={setAge} />
+      <FilterByTopics
+        topics={topics}
+        setFilter={setFilter}
+        filter
+        setPage={setPage}
+      />
+      <SortByCreated setAge={setAge} filter={filter} />
       <ArticlesList
         articles={articles}
         setArticles={setArticles}

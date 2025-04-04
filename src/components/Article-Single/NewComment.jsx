@@ -18,7 +18,6 @@ export default function NewComment({ article_id, setIsPosted, setComments }) {
       body: newComment,
     })
       .then(({ comment }) => {
-        console.log(comment.comment_id);
         setNewCommentId(comment.comment_id);
       })
       .then(() => {

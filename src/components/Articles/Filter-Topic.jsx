@@ -1,7 +1,12 @@
-export default function FilterByTopics({ topics, setFilter }) {
+import { useNavigate } from "react-router";
+
+export default function FilterByTopics({ topics, filter, setFilter, setPage }) {
+  const navigate = useNavigate();
   function handleFilter(event) {
     event.preventDefault();
     setFilter(event.target.value);
+    navigate(`/articles?topic=${event.target.value}`);
+    setPage(1);
   }
   return (
     <form className="Articles-Filter">
